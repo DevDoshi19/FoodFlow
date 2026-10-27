@@ -1,0 +1,103 @@
+# ==========================================
+# 📦 Dependencies & Package Managers
+# ==========================================
+node_modules/
+jspm_packages/
+.pnp/
+.pnp.js
+
+# Yarn Berry (Zero-installs)
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+# Uncomment the line below if you are NOT using Yarn Zero-Installs
+# .yarn/plugins
+
+# ==========================================
+# 🚀 Build Outputs & Compiled Code
+# ==========================================
+# TypeScript & Node build folders
+dist/
+lib/
+out/
+
+# React / Frontend production builds
+build/
+.next/
+.nuxt/
+.out/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Vite, Webpack, & Turbo/Nx caches
+.turbo/
+.nx/
+.cache/
+
+# ==========================================
+# 🔑 Environment Secrets & Configurations
+# ==========================================
+# Never commit raw secrets to source control
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Serverless & Deployment configurations
+.serverless/
+.terraform/
+.serverless_nextjs/
+
+# ==========================================
+# 🪵 Logs & Diagnostics
+# ==========================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostic reports (Next.js / Node)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# ==========================================
+# 🛠️ Editor & IDE Settings
+# ==========================================
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains (WebStorm, IntelliJ)
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==========================================
+# 🖥️ System & OS Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==========================================
+# 🧪 Testing & Coverage
+# ==========================================
+coverage/
+.nyc_output/
+.playwright/
+playwright-report/
+test-results/
