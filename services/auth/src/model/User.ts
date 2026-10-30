@@ -36,3 +36,21 @@ const schema : Schema<IUser> = new Schema({
 // provide an API to create, query, update, and delete user documents in the MongoDB collection
 const User = mongoose.model<IUser>('User', schema);
 export default User;
+
+
+// SDE takeaway: Keep your application data types conceptually separate from database-specific document behavior when possible.
+
+// | Type | What it describes |
+// |---|---|
+// | `IUser` | The shape of user data |
+// | `Schema<IUser>` | A Mongoose schema configured for that data shape |
+
+// Think of it this way:
+// - IUser describes what the data looks like.
+// - Schema describes how Mongoose should handle that data structure.
+
+// | Concept | Your code | Purpose |
+// |---|---|---|
+// | Interface | `IUser` | Describes the data shape |
+// | Schema | `schema` | Defines fields, validation, defaults, and other document behavior |
+// | Model | `User` | Provides an API to create, query, update, and delete documents |

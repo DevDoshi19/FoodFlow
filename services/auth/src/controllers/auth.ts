@@ -2,9 +2,23 @@ import User from '../model/User.js';
 import jwt from 'jsonwebtoken';
 import tryCatch from '../middlewares/trycatch.js';
 import { AuthenticatedRequest } from '../middlewares/isAuth.js';
+import { oauth2Client } from '../config/googleConfig.js';
+import axios from 'axios';
 
 export const loginUser = tryCatch(async(req,res)=>{
-    const {email,name,picture} = req.body;
+    // get this code from frontend after googleapi setup
+    const {code} = req.body;
+
+    if(!code){
+        return res.status(400).json({message:"Missing required fields"});
+    }
+    const googleRes = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(googleRes.tokens);
+
+    const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`);
+
+
+    const {email,name,picture} = userRes.data ;
     // if (!email || !name || !picture) {
     //     return res.status(400).json({message:"Missing required fields"});
     // }
@@ -18,7 +32,10 @@ export const loginUser = tryCatch(async(req,res)=>{
                 image:picture
             });
         }
-    const token = jwt.sign({user}, process.env.JWT_SECRET as string, {expiresIn: '15d'});
+    const token = jwt.sign({user}, process.env.JWT_SECRET as string, {
+        expiresIn: '15d'
+    });
+    
     res.status(200).json(
             { message:"User logged in successfully", 
                 user,
