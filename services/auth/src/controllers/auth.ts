@@ -81,5 +81,7 @@ export const addUserRole = tryCatch(async(req:AuthenticatedRequest,res)=>{
 
 export const myProfile = tryCatch(async(req:AuthenticatedRequest,res)=>{
     const user = req.user;
-    res.json(user);
+    return res.status(200).json({
+        user: req.user
+    });
 })

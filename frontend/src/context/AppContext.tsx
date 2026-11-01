@@ -36,15 +36,16 @@ export const AppProvider = ({children}:AppProviderProps)=>{
             setLoading(false);
         }  
     }
-
+    // perform side effect to fetch user data when the component mounts
     useEffect(()=>{
         fetchUser();
-    },[]);
+    },[]);  
 
     return <AppContext.Provider value={{isAuth,loading,setIsAuth,setLoading,setUser,user}}>{children}</AppContext.Provider>
 }
 
 export const useAppData = ():AppContextType =>{
+    // access yje shared state from the context
     const context = useContext(AppContext);
     if(!context){
         throw new Error("useAppData must be used within AppProvider");

@@ -27,6 +27,24 @@ export const isAuth = async(req:AuthenticatedRequest,res:Response ,next:NextFunc
         req.user = decoded.user;
         next();
     }catch(error){
-        res.status(500).json({message:"Internal server error - JWT error", error});
+        if (error instanceof jwt.TokenExpiredError) {
+            res.status(401).json({
+                message: "Token expired. Please login again."
+            });
+            return;
+        }
+
+        if (error instanceof jwt.JsonWebTokenError) {
+            res.status(401).json({
+                message: "Invalid authentication token."
+            });
+            return;
+        }
+
+        console.error("Authentication middleware error:", error);
+
+        res.status(500).json({
+            message: "Internal server error"
+        });
     }
 };

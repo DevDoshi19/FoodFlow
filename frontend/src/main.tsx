@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AppProvider } from './context/appContext.tsx';
+import { AppProvider } from './context/AppContext.tsx';
 
 export const authService = 'http://localhost:5000'
 
@@ -13,6 +13,6 @@ createRoot(document.getElementById('root')!).render(
       <AppProvider>
         <App />
       </AppProvider>
-    </GoogleOAuthProvider>;
+    </GoogleOAuthProvider>
   </StrictMode>,
 )
