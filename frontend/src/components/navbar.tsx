@@ -11,7 +11,7 @@ const Navbar = () => {
 
     const isHomePage = currLocation.pathname === "/";
 
-    const [searchParams,setSearchParams] =useSearchParams()
+    const [searchParams,setSearchParams] = useSearchParams()
     const [search,setSearch] = useState(searchParams.get("search") || "");
 
     useEffect(()=>{
