@@ -78,6 +78,10 @@ export const AppProvider = ({children}:AppProviderProps)=>{
                 console.error(error);
             }
         });
+        return () =>{
+            isMounted = false;
+            setLoadingLocation(false);
+        }
     },[]);
 
     return <AppContext.Provider 

@@ -14,12 +14,14 @@ const Navbar = () => {
     const [searchParams,setSearchParams] = useSearchParams()
     const [search,setSearch] = useState(searchParams.get("search") || "");
 
-    useEffect(()=>{
-        const timer = setTimeout(()=>{
+    // deboucing the search input to avoid too many updates to the URL
+    useEffect(()=>{;
+
+        const timer = setTimeout(()=>{ 
             if(search){
-                setSearchParams({search})
+                setSearchParams({search},{replace:true})
             }else{
-                setSearchParams({})
+                setSearchParams({},{replace:true})
             }
         },400)
         return ()=> clearTimeout(timer);

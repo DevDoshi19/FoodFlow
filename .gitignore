@@ -101,3 +101,5 @@ coverage/
 .playwright/
 playwright-report/
 test-results/
+
+docs
