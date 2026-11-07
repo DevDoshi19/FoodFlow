@@ -64,23 +64,24 @@ export const AppProvider = ({children}:AppProviderProps)=>{
                 setLocation({
                     latitude,
                     longitude,
-                    formattedAddress:data.display_name || "current location"});
+                    formattedAddress:data.display_name || "current location"
+                });
                 
                 setCity(data.address.city || data.address.town || data.address.village || "current location");
-            
+                setLoadingLocation(false);
             }catch(error){
                 setLocation({
                     latitude,
                     longitude,
                     formattedAddress:"current location"
                 });
+                setLoadingLocation(false);
                 setCity("Failed to fetch location");
                 console.error(error);
             }
         });
         return () =>{
             isMounted = false;
-            setLoadingLocation(false);
         }
     },[]);
 
@@ -93,8 +94,9 @@ export const AppProvider = ({children}:AppProviderProps)=>{
             </AppContext.Provider>
 }
 
+
 export const useAppData = ():AppContextType =>{
-    // access yje shared state from the context
+    // access the shared state from the context
     const context = useContext(AppContext);
     if(!context){
         throw new Error("useAppData must be used within AppProvider");

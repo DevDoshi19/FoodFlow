@@ -28,3 +28,24 @@ export interface AppContextType{
     setCity:React.Dispatch<React.SetStateAction<string>>;
 
 }
+
+
+export interface IRestaurant{
+    _id :string;
+    name:string;
+    description?:string;
+    image:string;
+    ownerId:string;
+    phone:number;
+    isVerified:boolean;
+
+    autoLocation:{
+        type:"Point"; // GeoJSON type
+        coordinates:[number,number] ; // longitude, latitude
+        formattedAddress:string;
+    }
+
+    isOpen:boolean;
+    createdAt:Date;
+
+}

@@ -2,7 +2,8 @@ import axios from "axios";
 import getBuffer from "../config/datauri.js";
 import { AuthenticatedRequest } from "../middlewares/isAuth.js"
 import tryCatch from "../middlewares/tryCatch.js"
-import Restaurant, { IRestaurant } from "../models/Restaurant.js";
+import Restaurant from "../models/Restaurant.js";
+import jwt from "jsonwebtoken";
 
 export const addRestaurant = tryCatch(async (req:AuthenticatedRequest, res) => {
     const user = req.user;
@@ -59,8 +60,8 @@ export const addRestaurant = tryCatch(async (req:AuthenticatedRequest, res) => {
             type:"Point",
             coordinates:[Number(longitude),Number(lantitude)],
             formattedAddress:formattedAddress
-        }
-
+        },
+        isVerified:false,
     });
 
     return res.status(201).json({
@@ -87,10 +88,27 @@ export const featchMyRestaurant = tryCatch(async (req:AuthenticatedRequest,res)=
         })
     };
 
-    if (!user.restaurantId )
+    // if seller doesn't have restaurantId in the token, then generate a new token with restaurantId and send it back to the client
+    if (!user.restaurantId ){
+        const token = jwt.sign({
+            user:{
+                ...user, 
+                restaurantId:restaurant._id.toString()
+            }
+            },process.env.JWT_SECRET as string,{
+                expiresIn:"15d"
+            }
+        );
+        return res.status(200).json({
+            message:"Restaurant fetched successfully!",
+            restaurant,
+            token
+        });
+    }
 
     return res.status(200).json({
         message:"Restaurant fetched successfully!",
         restaurant
     });
 });
+
