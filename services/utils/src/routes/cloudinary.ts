@@ -12,7 +12,14 @@ router.post("/upload", async (req, res) => {
             url: cloud.secure_url,
         })
         
-    }catch(err){
+    }catch(err:any){
+            console.error({
+            message: err.message,
+            http_code: err.http_code,
+            name: err.name,
+            cloudinaryError: err.error,
+            stack: err.stack
+        });
         console.error("Error uploading to Cloudinary:", err);
         res.status(500).json({ error: "Failed to upload image" });
     }

@@ -1,10 +1,10 @@
-import dns from 'dns';
+// import dns from 'dns';
 
-dns.setDefaultResultOrder('ipv4first');
-dns.setServers([
-  '8.8.8.8',
-  '8.8.4.4'
-]);
+// dns.setDefaultResultOrder('ipv4first');
+// dns.setServers([
+//   '8.8.8.8',
+//   '8.8.4.4'
+// ]);
 
 import express from "express";
 import dotenv from "dotenv";
@@ -14,23 +14,26 @@ import uploadRoutes from "./routes/cloudinary.js";
 
 dotenv.config();
 
+console.log("Cloudinary configuration:", {
+    cloudName: process.env.CLOUD_NAME,
+    apiKeyLoaded: !!process.env.CLOUD_API_KEY,
+    secretLoaded: !!process.env.CLOUD_SECRET_KEY
+});
+
 const app = express();
 app.use(cors());
-app.use(express.json());
 
 app.use(express.json({ limit: '50mb' })); // Increase the limit to 50MB
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // Increase the limit to 50MB
 
-const {CLOUD_API_KEY, CLOUD_NAME,CLOUD_SECRET_KEY} = process.env;
-
-if (!CLOUD_API_KEY || !CLOUD_NAME || !CLOUD_SECRET_KEY) {
+if (!process.env.CLOUD_API_KEY || !process.env.CLOUD_NAME || !process.env.CLOUD_SECRET_KEY) {
     throw new Error("Missing Cloudinary configuration in environment variables");
 }
 
 cloudinary.v2.config({
-    cloud_name: CLOUD_NAME,
-    api_key: CLOUD_API_KEY,
-    api_secret:CLOUD_SECRET_KEY
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret:process.env.CLOUD_SECRET_KEY
 });
 
 app.use("/api", uploadRoutes);

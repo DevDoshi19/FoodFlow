@@ -23,8 +23,8 @@ export const addRestaurant = tryCatch(async (req:AuthenticatedRequest, res) => {
         });
     }
 
-    const {name,description,lantitude,longitude,formattedAddress,phone} = req.body;
-    if (!name || !lantitude || !longitude || !formattedAddress || !phone) {
+    const {name,description,latitude,longitude,formattedAddress,phone} = req.body;
+    if (!name || !latitude || !longitude || !formattedAddress || !phone) {
         return res.status(400).json({
             message: "Missing required fields!"
         });
@@ -38,17 +38,23 @@ export const addRestaurant = tryCatch(async (req:AuthenticatedRequest, res) => {
     }
 
     const fileBuffer = getBuffer(file);
+    console.log("4. Data URI generated:", !!fileBuffer?.content);
+
     if (!fileBuffer?.content) {
         return res.status(500).json({
             message: "Failed to create file buffer !!"
         });
     }
+    console.log("5. Calling Utils Service...");
 
     const {data:uploadResult} = await axios.post(`${process.env.UTILS_SERVICE_URL}/api/upload`,
                                 {
                                     buffer:fileBuffer.content,
                                 }                          
                             )
+    console.log("6. Cloudinary URL:", uploadResult.url);
+
+    console.log("7. Creating restaurant in MongoDB...");
 
     const restaurant = await Restaurant.create({
         name,
@@ -58,7 +64,7 @@ export const addRestaurant = tryCatch(async (req:AuthenticatedRequest, res) => {
         ownerId:user._id,
         autoLocation:{
             type:"Point",
-            coordinates:[Number(longitude),Number(lantitude)],
+            coordinates:[Number(longitude),Number(latitude)],
             formattedAddress:formattedAddress
         },
         isVerified:false,

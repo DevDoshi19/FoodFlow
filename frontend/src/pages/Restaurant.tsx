@@ -3,12 +3,15 @@ import type { IRestaurant } from "../types"
 import axios from "axios"
 import { restaurantService } from "../main"
 import AddRestaurant from "../components/AddRestaurant"
+import RestaurantProfile from '../components/RestaurantProfile';
+
+type SellerTab = "menu" | "add-items" | "sales";
 
 const Restaurant = () => {
 
     const [restaurant, setRestaurant] = useState<IRestaurant | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
-
+    const [tab, setTab] = useState<SellerTab>("menu");
     const fetchMyRestaurant = async () => {
         try{
             const {data} = await axios.get(`${restaurantService}/api/restaurant/my`,{
@@ -21,7 +24,8 @@ const Restaurant = () => {
             setLoading(false)
 
             if (data.token){
-                localStorage.setItem("token",data.token)
+                localStorage.setItem("token",data.token);
+                window.location.reload();
             }
 
         }catch(error){
@@ -43,11 +47,14 @@ const Restaurant = () => {
     }
 
     if (!restaurant){
-        return <AddRestaurant/>
+        return <AddRestaurant fetchMyRestaurant={fetchMyRestaurant}/>
     }
 
   return (
-    <div>Restaurant</div>
+    <div className='min-h-screen bg-gray-50 px-4 py-6 space-y-6'>
+        <RestaurantProfile restaurant={restaurant} onUpdate={setRestaurant} isSeller={true}/>
+        
+    </div>
   )
 }
 

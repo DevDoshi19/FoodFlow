@@ -5,7 +5,12 @@ import { restaurantService } from "../main"
 import axios from "axios"
 import { BiMapPin, BiUpload } from "react-icons/bi"
 
-const AddRestaurant = () => {
+
+interface props{
+  fetchMyRestaurant:()=>Promise<void>;
+}
+
+const AddRestaurant = ({fetchMyRestaurant}:props) => {
 
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -27,7 +32,7 @@ const AddRestaurant = () => {
     formData.append("longitude", String(location.longitude));
     formData.append("formattedAddress", location.formattedAddress);
     formData.append("phone", phone);
-    formData.append("image", image as File);
+    formData.append("file", image);
 
     try{
       setSubmitting(true);
@@ -39,8 +44,11 @@ const AddRestaurant = () => {
       })
 
       toast.success("Restaurant added successfully");
-
+      fetchMyRestaurant();
     }catch(error:any){
+      console.error("STATUS:", error.response?.status);
+      console.error("RESPONSE:", error.response?.data);
+      console.error("ERROR:", error.message);
       toast.error(error.response?.data?.message || "Failed to add restaurant");
       alert("Failed to add restaurant");
     }finally{
