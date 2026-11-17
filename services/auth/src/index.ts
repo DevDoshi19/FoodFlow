@@ -15,18 +15,11 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.use((req, res, next) => {
-    res.setHeader(
-        "Cross-Origin-Opener-Policy",
-        "same-origin-allow-popups"
-    );
-
-    next();
-});
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-}));
+app.use(cors());
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+// }));
 app.use(express.json());
 
 app.use("/api/auth",authRoutes);

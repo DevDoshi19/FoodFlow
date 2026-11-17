@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
@@ -11,11 +11,11 @@ export const restaurantService = "http://localhost:5001"
 // const clientID = import.meta.env.VITE_CLIENT_ID 
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <GoogleOAuthProvider clientId="1020343245467-csd4edh8t0m9eik6r0t6me9rlva3sf8i.apps.googleusercontent.com">
       <AppProvider>
         <App />
       </AppProvider>
     </GoogleOAuthProvider>
-  </StrictMode>,
+  // </StrictMode>,
 )

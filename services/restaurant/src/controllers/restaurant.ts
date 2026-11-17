@@ -118,3 +118,66 @@ export const featchMyRestaurant = tryCatch(async (req:AuthenticatedRequest,res)=
     });
 });
 
+export const updateStatusRestaurant = tryCatch(async (req:AuthenticatedRequest,res)=>{
+    const user = req.user;
+    if (!user){
+        return res.status(401).json(
+            {
+                message: "Unauthorized, Please login!" 
+            }
+        );
+    }
+    const {status} = req.body;
+    if (typeof status !== "boolean") {
+        return res.status(400).json({
+            message:"Status must be a boolean value!"
+        })
+    }
+    
+    const restaurant = await Restaurant.findOneAndUpdate(
+        {ownerId:user._id},
+        {isOpen:status},
+        {new:true}
+    );
+    if (!restaurant){
+        return res.status(404).json({
+            message:"Restaurant not found!"
+        })
+    }
+    return res.status(200).json({
+        message:"Restaurant status updated successfully!",
+        restaurant
+    });
+})
+
+export const updateRestaurant = tryCatch(async (req:AuthenticatedRequest,res)=>{
+
+    const user = req.user;
+    if (!user){
+        return res.status(401).json(
+            {
+                message: "Unauthorized, Please login!" 
+            }
+        );
+    }
+
+    const {name, description} = req.body ;
+    
+    const restaurant = await Restaurant.findOneAndUpdate(
+        {ownerId:user._id},
+        {name:name , description:description},
+        {new:true}
+    )
+
+    if (!restaurant){
+        return res.status(404).json({
+            message:"Restaurant not found!"
+        })
+    }
+
+    return res.status(200).json({
+        message:"Restaurant updated successfully!",
+        restaurant
+    });
+
+})
