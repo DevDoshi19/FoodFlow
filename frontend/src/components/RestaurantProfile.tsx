@@ -31,9 +31,9 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
         },
       );
 
-      toast.success(data.message || "Status updated successfully");
+      toast.success( data.message ||"Status updated successfully");
       setIsOpen(data.restaurant.isOpen);
-    } catch (error: any) {
+    }catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message);
     }
@@ -52,7 +52,8 @@ const RestaurantProfile = ({ restaurant, isSeller, onUpdate }: props) => {
         },
       );
       onUpdate(data.restaurant);
-      toast.success(data.message || "Restaurant updated successfully");
+      setEditmode(false)
+      toast.success(data.message ||"Restaurant updated");
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message || "Failed to update restaurant");
